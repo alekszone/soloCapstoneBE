@@ -32,25 +32,17 @@ const passport = require("passport");
 const { createServer } = require("https");
 const allPaths = join(__dirname, "./routes/routes/allImages");
 const server = express();
-server.all("*", function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
 
-const whitelist = [process.env.Client_Website];
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: process.env.Client_Website,
   credentials: true,
 };
 server.use(cors(corsOptions));
+server.all(function (req, res, next) {
+  res.header("Access-Control-Allow-Credentials", true);
+  next();
+});
+
 server.use(cookieParser());
 
 server.use(express.json());

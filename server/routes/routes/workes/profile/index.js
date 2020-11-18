@@ -209,9 +209,9 @@ workersRoute.post("/login", async (req, res, next) => {
       const token = await createToken(user);
       console.log("hello token", token.token, "this is token");
       res.cookie("token", token.token, {
-        // httpOnly: true,
-        // secure: true,
-        // sameSite: "none",
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
       });
       res.send("loged in");
     }
@@ -243,9 +243,9 @@ workersRoute.post("/logout", User, async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
 
     res.clearCookie("token", {
-      // secure: true,
-      // httpOnly: true,
-      // sameSite: "none",
+      secure: true,
+      httpOnly: true,
+      sameSite: "none",
     });
 
     res.send("ok");
@@ -268,9 +268,9 @@ workersRoute.get(
       const token = req.user.token;
 
       res.cookie("token", token, {
-        // httpOnly: true,
-        // sameSite: 'none',
-        // secure: true,
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
       });
       res.send("helllo welcome");
 
