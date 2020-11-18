@@ -5,12 +5,6 @@ const { User } = require("../Midlewares/middleware");
 const workerProfile = require("../../workes/profile/schema");
 const manageAplication = express.Router();
 const sendEmail = require("@sendgrid/mail");
-manageAplication.all("*", function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
 
 manageAplication.get("/allPost", User, async (req, res, next) => {
   try {

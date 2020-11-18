@@ -5,13 +5,6 @@ const aplicationRoute = express.Router();
 const aplicationSchema = require("./schema");
 const q2m = require("query-to-mongo");
 
-aplicationRoute.all("*", function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
-
 aplicationRoute.get("/getAllAplication", User, async (req, res, next) => {
   try {
     const query = q2m(req.query);

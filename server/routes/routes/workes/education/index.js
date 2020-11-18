@@ -13,12 +13,6 @@ cloudinary.config({
   api_secret: process.env.api_secret,
 });
 const educationRoute = express.Router();
-educationRoute.all("*", function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
 
 educationRoute.get("/allEducation", User, async (req, res, next) => {
   try {
