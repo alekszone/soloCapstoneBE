@@ -118,7 +118,10 @@ educationRoute.put("/edit/:_id", User, async (req, res, next) => {
   try {
     const userId = req.params._id;
     const update = req.body;
-    const newUpdate = await schema.findByIdAndUpdate({ _id: userId }, update);
+    const newUpdate = await schema.findByIdAndUpdate({
+      _id: userId,
+      ...update,
+    });
     if (newUpdate) {
       // await newUpdate.save()
       res.status(201).send(newUpdate);

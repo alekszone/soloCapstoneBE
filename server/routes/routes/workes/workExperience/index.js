@@ -72,10 +72,9 @@ experienceRoute.post(
           async (err, data) => {
             if (!err) {
               const user = await schema.findById({
-                // image: data.secure_url,
                 _id: req.params.id,
               });
-
+              console.log(data.secure_url, "hwelellelel");
               user.image = data.secure_url;
               const info = await user.save({ validateBeforeSave: false });
               res.status(201).send(info);
@@ -101,7 +100,7 @@ experienceRoute.put("/edit/:_id", User, async (req, res, next) => {
   try {
     const id = req.params._id;
     const update = req.body;
-    const editPost = await schema.findByIdAndUpdate({ _id: id }, update);
+    const editPost = await schema.findByIdAndUpdate({ _id: id, ...update });
     console.log(editPost, "edited post");
     if (editPost) {
       res.send(editPost);
