@@ -7,16 +7,10 @@ const q2m = require("query-to-mongo");
 
 aplicationRoute.get("/getAllAplication", User, async (req, res, next) => {
   try {
-    const query = q2m(req.query);
     const _id = req.user._id;
     const allAplication = await aplicationSchema
-      .find({ userId: _id }, query.criteria, query.options.fields)
-      .populate("postId")
-      .skip(query.options.skip)
-      .limit(query.options.limit)
-      .sort({
-        dateOfCreation: -1,
-      });
+      .find({ userId: _id })
+      .populate("postId");
 
     res.send(allAplication);
   } catch (err) {
@@ -48,10 +42,10 @@ aplicationRoute.post("/aply/:_id", User, async (req, res, next) => {
     console.log(findPost, "why is not here");
 
     findPost.allAplication.push(userId);
-    await findPost.save();
-    if (findPost.allAplication) {
+    const data = await findPost.save({ validateBeforeSave: false });
+    if (data) {
       const add = new aplicationSchema({ userId: userId, postId: _id });
-      const posted = await add.save();
+      const posted = await add.save({ validateBeforeSave: false });
       if (posted) {
         console.log("posted", add);
       }

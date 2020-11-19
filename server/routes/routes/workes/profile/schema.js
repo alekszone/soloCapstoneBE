@@ -5,21 +5,14 @@ const bcrypt = require("bcryptjs");
 
 const profile = new Schema(
   {
-    username: {
-      type: String,
-      required: true,
-    },
     position: {
       type: String,
-      required: true,
     },
     name: {
       type: String,
-      required: true,
     },
     surname: {
       type: String,
-      required: true,
     },
     portfolioLink: {
       type: String,
@@ -54,7 +47,6 @@ const profile = new Schema(
 
     location: {
       type: String,
-      required: true,
     },
     workExperience: [
       {

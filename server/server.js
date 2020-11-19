@@ -33,6 +33,7 @@ const { createServer } = require("https");
 const allPaths = join(__dirname, "./routes/routes/allImages");
 const server = express();
 
+console.log("ENV -->>>>>>>>>>>>>>>> ", process.env.Client_Website);
 const corsOptions = {
   origin: process.env.Client_Website,
   credentials: true,
@@ -50,10 +51,6 @@ server.use(passport.initialize());
 server.use(passport.session());
 
 server.use(express.static(allPaths));
-server.use(notFound);
-server.use(badRequest);
-server.use(newDefinedError);
-server.use(otherGenericError);
 
 server.use("/login", login);
 server.use("/post", post);
@@ -64,6 +61,10 @@ server.use("/aplication", aplication);
 server.use("/workExperience", workExperience);
 server.use("/skills", skills);
 
+server.use(notFound);
+server.use(badRequest);
+server.use(newDefinedError);
+server.use(otherGenericError);
 console.log(listEndpoints(server));
 
 mongoose

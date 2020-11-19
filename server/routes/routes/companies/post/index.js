@@ -20,7 +20,7 @@ postRoute.get("/", User, async (req, res, next) => {
     const id = req.user._id;
     const query = q2m(req.query);
     const post = await postSchema
-      .find(query.criteria, query.options.fields, { userID: id })
+      .find({ userID: id })
       .populate("allAplication")
       .skip(query.options.skip)
       .limit(query.options.limit)
