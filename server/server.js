@@ -32,23 +32,29 @@ const passport = require("passport");
 
 const server = express();
 
-const whitelist = process.env.Client_Website;
-const corsOptions = {
-  origin: (origin, callback) => {
-    console.log("this is origin", origin);
-    console.log("this is white list", whitelist);
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+// const whitelist = process.env.Client_Website;
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//     console.log("this is origin", origin);
+//     console.log("this is white list", whitelist);
+//     if (whitelist.indexOf(origin) !== -1 || !origin) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   credentials: true,
+// };
+
+// server.use(cors({ credentials: true, origin: process.env.Client_Website }));
+
+const corsOpt = {
+  origin: process.env.Client_Website,
   credentials: true,
 };
+server.use(cors(corsOpt));
+
 server.use(cookieParser());
-
-server.use(cors({ credentials: true, origin: process.env.Client_Website }));
-
 server.use(express.json());
 
 server.use("/login", login);
