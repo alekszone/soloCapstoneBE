@@ -3,8 +3,8 @@ const ProfileSchema = require("../profile/schema");
 
 const User = async (req, res, next) => {
   try {
-    const token = req.cookies.token;
-
+    const token = req.headers.authorization.split(" ")[1];
+    console.log(req.headers, "usdgflgdufusdf");
     if (token) {
       const data = await verifyToken(token);
       const user = await ProfileSchema.findById(data._id);

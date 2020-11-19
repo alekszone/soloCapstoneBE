@@ -331,7 +331,7 @@ companyRoute.post("/login", async (req, res, next) => {
         secure: true,
         sameSite: "none",
       });
-      // res.send(token);
+      res.send(token);
     }
   } catch (err) {
     console.log(err);
