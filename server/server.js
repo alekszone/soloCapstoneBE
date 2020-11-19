@@ -47,7 +47,7 @@ const corsOptions = {
 };
 server.use(cookieParser());
 
-server.use(cors());
+server.use(cors({ credentials: true, origin: process.env.Client_Website }));
 
 server.use(express.json());
 
