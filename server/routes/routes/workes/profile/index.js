@@ -39,7 +39,7 @@ workersRoute.get("/allProfiles", User, async (req, res, next) => {
   }
 });
 
-workersRoute.get("/allCompanies", async (req, res, next) => {
+workersRoute.get("/allCompanies", User, async (req, res, next) => {
   try {
     const query = q2m(req.query);
     const all = await allCompanies
