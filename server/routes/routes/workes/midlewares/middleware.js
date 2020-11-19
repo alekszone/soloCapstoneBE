@@ -4,6 +4,7 @@ const ProfileSchema = require("../profile/schema");
 const User = async (req, res, next) => {
   try {
     const token = req.cookies.token;
+
     if (token) {
       const data = await verifyToken(token);
       const user = await ProfileSchema.findById(data._id);

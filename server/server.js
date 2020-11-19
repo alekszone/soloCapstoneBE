@@ -29,31 +29,27 @@ require("./routes/routes/companies/oauth");
 require("./routes/routes/workes/oauth");
 
 const passport = require("passport");
-const { createServer } = require("https");
-const allPaths = join(__dirname, "./routes/routes/allImages");
+
 const server = express();
 
-console.log("ENV -->>>>>>>>>>>>>>>> ", process.env.Client_Website);
+const whitelist = process.env.Client_Website;
 const corsOptions = {
-  origin: process.env.Client_Website,
+  origin: (origin, callback) => {
+    console.log("this is origin", origin);
+    console.log("this is white list", whitelist);
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 };
-server.use(cors(corsOptions));
-server.all(function (req, res, next) {
-  res.header("Access-Control-Allow-Credentials", true);
-  next();
-});
-
 server.use(cookieParser());
 
-server.use(express.json());
-server.use(passport.initialize());
-server.use(passport.session());
+server.use(cors(corsOptions));
 
-server.use(express.static(allPaths));
-server.use("/test", (req, res) => {
-  res.send("hello");
-});
+server.use(express.json());
 
 server.use("/login", login);
 server.use("/post", post);
@@ -63,7 +59,10 @@ server.use("/education", education);
 server.use("/aplication", aplication);
 server.use("/workExperience", workExperience);
 server.use("/skills", skills);
+server.set("trust proxy", 1);
 
+server.use(passport.initialize());
+server.use(passport.session());
 server.use(notFound);
 server.use(badRequest);
 server.use(newDefinedError);
@@ -76,6 +75,8 @@ mongoose
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
     }
   )
   .then(

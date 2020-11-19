@@ -207,7 +207,8 @@ workersRoute.post("/login", async (req, res, next) => {
         secure: true,
         sameSite: "none",
       });
-      res.send({ token: token.token });
+      // localStorage.setItem('token',token)
+      // res.send(token);
     }
   } catch (err) {
     next(err);
