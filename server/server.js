@@ -51,6 +51,9 @@ server.use(passport.initialize());
 server.use(passport.session());
 
 server.use(express.static(allPaths));
+server.use("/test", (req, res) => {
+  res.send("hello");
+});
 
 server.use("/login", login);
 server.use("/post", post);
