@@ -32,7 +32,7 @@ const passport = require('passport');
 
 const server = express();
 const corsOpt = {
-  origin: process.env.Localhost_link,
+  origin: process.env.Client_Website,
 };
 server.use(cors(corsOpt));
 
