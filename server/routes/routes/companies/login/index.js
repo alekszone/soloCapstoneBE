@@ -327,9 +327,9 @@ companyRoute.post("/login", async (req, res, next) => {
     if (user) {
       const token = await createToken(user);
       res.cookie("token", token.token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
+        // httpOnly: true,
+        // secure: true,
+        // sameSite: "none",
       });
       res.send("loged in");
     }
@@ -345,9 +345,9 @@ companyRoute.post("/logout", User, async (req, res, next) => {
     user.token = "";
     await user.save({ validateBeforeSave: false });
     res.clearCookie("token", {
-      secure: true,
-      httpOnly: true,
-      sameSite: "none",
+      // secure: true,
+      // httpOnly: true,
+      // sameSite: "none",
     });
     res.send("ok");
   } catch (err) {
