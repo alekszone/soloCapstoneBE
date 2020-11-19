@@ -39,7 +39,7 @@ workersRoute.get("/allProfiles", User, async (req, res, next) => {
   }
 });
 
-workersRoute.get("/allCompanies", User, async (req, res, next) => {
+workersRoute.get("/allCompanies", async (req, res, next) => {
   try {
     const query = q2m(req.query);
     const all = await allCompanies
@@ -207,7 +207,7 @@ workersRoute.post("/login", async (req, res, next) => {
         secure: true,
         sameSite: "none",
       });
-      res.send("loged in");
+      res.send({ token: token.token });
     }
   } catch (err) {
     next(err);
