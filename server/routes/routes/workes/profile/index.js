@@ -31,8 +31,8 @@ workersRoute.get("/allProfiles", User, async (req, res, next) => {
       .limit(query.options.limit)
       .sort(query.options.sort);
 
-    if (allProfiles.length > 0) res.send(allProfiles);
-    else res.status(404).send("the profiles doesn't exist");
+    res.send(allProfiles);
+ 
   } catch (error) {
     next(error);
     console.log(error);
@@ -49,8 +49,8 @@ workersRoute.get("/allCompanies", User, async (req, res, next) => {
       .limit(query.options.limit)
       .sort(query.options.sort);
     console.log(await allCompanies.find(), "hellloooo");
-    if (all.length > 0) res.send(all);
-    else res.send("THe companies does not exist");
+ res.send(all);
+    
   } catch (error) {
     next(error);
     console.log(error);
@@ -67,8 +67,8 @@ workersRoute.get("/allPostJobs", User, async (req, res, next) => {
       .limit(query.options.limit)
       .sort(query.options.sort);
     console.log(await companiesPost.find(), "hellloooo");
-    if (all.length > 0) res.send(all);
-    else res.send("THe companies does not exist");
+     res.send(all);
+  
   } catch (error) {
     next(error);
     console.log(error);
@@ -83,8 +83,8 @@ workersRoute.get("/singleProfile/:_id", User, async (req, res, next) => {
       .populate("workExperience")
       .populate("education")
       .populate("skills");
-    if (profile) res.send(profile);
-    else res.status(404).send("Profile does not exist");
+   res.send(profile);
+   
   } catch (error) {
     next(error);
     console.log(error);

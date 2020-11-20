@@ -15,18 +15,16 @@ cloudinary.config({
   api_secret: process.env.api_secret,
 });
 
-postRoute.get("/", User, async (req, res, next) => {
+postRoute.get("/allPosts", User, async (req, res, next) => {
   try {
     const id = req.user._id;
     const query = q2m(req.query);
     const post = await postSchema
       .find({ userID: id })
       .populate("allAplication")
-      .skip(query.options.skip)
-      .limit(query.options.limit)
-      .sort(query.options.sort);
-    if (post.length > 0) res.send(post);
-    else res.status(404).send("empty");
+     
+     res.send(post);
+    
   } catch (err) {
     next(err);
     console.log(err);
@@ -41,8 +39,8 @@ postRoute.get("/singelPost/:_id", User, async (req, res, next) => {
         _id: singelPost,
       })
       .populate("allAplication");
-    console.log(findPost);
-    res.status(201).send(findPost);
+    
+    res.send(findPost);
   } catch (err) {
     next(err);
     console.log(err);
@@ -58,7 +56,7 @@ postRoute.post("/newPost", User, async (req, res, next) => {
       companyName: user.companyName,
       location: user.location,
     });
-    const data = await newPost.save();
+    const data = await newPost.save({ validateBeforeSave: false });
 
     const addToProfile = await profileSchema.findById({ _id: user._id });
     const jobOffers = addToProfile.jobOffers;
@@ -132,7 +130,7 @@ postRoute.delete("/deletePost/:_id", User, async (req, res, next) => {
     const removeAplication = await apliactionSchema.find({ postId: _id });
     removeAplication.postId = [];
     removeAplication.userId = "";
-    await removeAplication.save();
+  //  const data =  await removeAplication.save({ validateBeforeSave: false });
     if (remove) {
       res.send("Post is deleted");
     } else {
