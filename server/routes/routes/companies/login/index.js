@@ -173,7 +173,7 @@ companyRoute.get("/:_id/pdf", async (req, res, next) => {
       .findOne({
         _id: req.params._id,
       })
-      .populate("workeExperience")
+      .populate("workExperience")
       .populate("education")
       .populate("skills");
     console.log(profile);
@@ -220,7 +220,7 @@ companyRoute.get("/:_id/pdf", async (req, res, next) => {
       }
     );
     doc.fontSize(18);
-    doc.text(`About Me`, 110, 200, {
+    doc.text(`About Me`, 100, 210,{
       width: 400,
       align: "center",
     });
@@ -228,27 +228,28 @@ companyRoute.get("/:_id/pdf", async (req, res, next) => {
     doc.text(
       `      
         ${profile.aboutMe}`,
-      100,
-      210,
+     
       {
         width: 400,
         align: "center",
+        align:'justify'
       }
     );
-    doc.fontSize(18);
-    doc.text("Education", 100, 400, {
-      width: 410,
-      align: "center",
-    });
-    doc.fontSize(12);
+ 
     const education = async () => {
+      doc.fontSize(18);
+      doc.text("Education",  {
+        width: "410",
+        align: "center",
+      });
+      doc.fontSize(12);
       profile.education &&
         profile.education.map(
           (education) =>
-            doc.text(`
+          
+ doc.text(`
             Education
             SchoolName: ${education.schoolName}
-            Image: ${education.image}
             Started: ${education.startDate}
             Finished:${education.endDate}
             Description: ${education.description}
@@ -257,45 +258,63 @@ companyRoute.get("/:_id/pdf", async (req, res, next) => {
       
           `),
           {
-            width: 410,
-            align: "center",
+            width: "410",
+            height:"auto",
+            align: "left",
+          
           }
         );
     };
     await education();
 
-    doc.fontSize(18);
-    doc.text("Experiences", 100, 750, {
+   
+    const workExperience = async () => {
+
+ doc.fontSize(18);
+    doc.font('Courier-Bold')
+    .text("Experiences",  {
       width: 410,
       align: "center",
-    });
+    })
+   
+    ;
     doc.fontSize(12);
-    const workExperience = async () => {
-      profile.workExperience &&
+   profile.workExperience &&
         profile.workExperience.map(
-          (work) =>
-            doc.text(`
-             Experiences
-            Worked In: ${work.workExperience}
-            Started: ${work.started}
-            Finished:  ${work.finished}
-            Description: ${work.workPosition}
+          (work) => 
+         
+            doc.font('Times-Roman')         
+            
+            .text(`
+     
+Worked In    ${":",work.workExperience}  
+
+Position     ${":",work.workPosition}
+
+Started      ${":",work.started}
+
+Finished     ${":",work.finished}
+
+Description  ${":",work.description}        
 
           `),
           {
             width: 410,
-            align: "center",
+            align: "left",
+            height:"auto",
+         
           }
         );
     };
     await workExperience();
-    doc.fontSize(18);
-    doc.text("Skills", 100, 350, {
-      width: 410,
-      align: "center",
-    });
-    doc.fontSize(12);
+  
     const skills = async () => {
+      doc.fontSize(18);
+      doc.text("Skills",   {
+        width: 410,
+        align: "center",
+      });
+      doc.fontSize(12);
       profile.skills &&
         profile.skills.map(
           (skill) =>
@@ -306,6 +325,7 @@ companyRoute.get("/:_id/pdf", async (req, res, next) => {
           `),
           {
             width: 410,
+            height:'auto',
             align: "center",
           }
         );
