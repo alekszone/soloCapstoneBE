@@ -208,55 +208,67 @@ companyRoute.get("/:_id/pdf", async (req, res, next) => {
     doc.font("Helvetica");
     doc.text(
       `
-     Email: ${profile.email}
+Email:      ${profile.email}
 
-     Location: ${profile.location}
+Location: ${profile.location}
 
-     Bio:  ${profile.position}`,
+Position:  ${profile.position}
+
+Portfolio:  ${profile.portfolioLink}
+
+
+`,
       260,
       80,
       {
         align: "left",
       }
     );
+
+
+    
     doc.fontSize(18);
-    doc.text(`About Me`, 100, 210,{
-      width: 400,
-      align: "center",
+    doc.font('Courier-Bold')
+    .text(`About Me`, 100, 210,{
+      width: 410,
+      align: "left",
     });
     doc.fontSize(12);
-    doc.text(
+    doc.font('Times-Roman')  
+    .text(
       `      
-        ${profile.aboutMe}`,
+${profile.aboutMe}`,
      
       {
-        width: 400,
-        align: "center",
+        width: 410,        
         align:'justify'
       }
     );
- 
+ doc.moveDown()
     const education = async () => {
       doc.fontSize(18);
-      doc.text("Education",  {
-        width: "410",
-        align: "center",
+      doc.font('Courier-Bold')
+.text("Education",  {
+  margin:50,
+        width: 410,
+        align: "left",
       });
       doc.fontSize(12);
       profile.education &&
         profile.education.map(
-          (education) =>
+          (education,i) =>
           
- doc.text(`
-            Education
-            SchoolName: ${education.schoolName}
-            Started: ${education.startDate}
-            Finished:${education.endDate}
-            Description: ${education.description}
-            About:${education.about}
-            SkillLearned:  ${education.skillsLearned}
-      
-          `),
+ doc.font('Times-Roman')  
+ 
+ .text(`
+Session ${i+1}
+
+School/Course:  ${education.schoolName}
+Start Date:         ${education.startDate}
+End Date:          ${education.endDate}
+About:               ${education.about}
+Learned:            ${education.skillsLearned}
+       `),
           {
             width: "410",
             height:"auto",
@@ -274,30 +286,27 @@ companyRoute.get("/:_id/pdf", async (req, res, next) => {
     doc.font('Courier-Bold')
     .text("Experiences",  {
       width: 410,
-      align: "center",
+      align: "left",
     })
    
     ;
     doc.fontSize(12);
    profile.workExperience &&
         profile.workExperience.map(
-          (work) => 
+          (work,i) => 
          
             doc.font('Times-Roman')         
             
+            .text(``)
             .text(`
-     
-Worked In    ${":",work.workExperience}  
-
-Position     ${":",work.workPosition}
-
-Started      ${":",work.started}
-
-Finished     ${":",work.finished}
-
-Description  ${":",work.description}        
-
-          `),
+Session ${i+1}
+            
+Company:      ${work.workExperience} 
+Position:        ${work.workPosition}
+Start Date:     ${work.started}
+End Date:      ${work.finished}
+Description:  ${work.description}       
+`),
           {
             width: 410,
             align: "left",
@@ -307,12 +316,15 @@ Description  ${":",work.description}
         );
     };
     await workExperience();
+ doc.moveDown()
+ doc.moveDown()
   
     const skills = async () => {
       doc.fontSize(18);
-      doc.text("Skills",   {
+    doc.font('Courier-Bold')
+    .text("Skills",   {
         width: 410,
-        align: "center",
+        align: "left",
       });
       doc.fontSize(12);
       profile.skills &&
