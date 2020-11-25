@@ -1,7 +1,7 @@
 const express = require("express");
 const schema = require("../../companies/post/schema");
 const { User } = require("../midlewares/middleware");
-const  CompanySchema= require('../../companies/login');
+const CompanySchema = require("../../companies/login");
 const aplicationRoute = express.Router();
 const aplicationSchema = require("./schema");
 const q2m = require("query-to-mongo");
@@ -37,28 +37,10 @@ aplicationRoute.get("/getAplication/:_id", User, async (req, res, next) => {
 });
 
 aplicationRoute.post("/aply/:_id", User, async (req, res, next) => {
-  try { 
-    
-    sendEmail.setApiKey(process.env.API_KEY_SENDGRID);
-    
+  try {
     const _id = req.params._id;
     const userId = req.user._id;
     const findPost = await schema.findById({ _id: _id });
-    console.log(findPost, "why is not here");
-    const findEmail = await CompanySchema.findById({_id:findPost.userID})
-    
-   const msg = {
-      to: findEmail.email,
-      from: "TechJobs@email.com",
-      subject: `Hello From Tech Jobs `,
-      text: `Hello we want to inform you tha you have a new application at your post  for ${findPost.jobPosition} position ,
-     Please , login to website for more        
-      `,
-    };
-
-    sendEmail.send(msg);
-
-
 
     findPost.allAplication.push(userId);
     const data = await findPost.save({ validateBeforeSave: false });
